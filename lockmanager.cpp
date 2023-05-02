@@ -45,7 +45,7 @@ LockManager::LockManager(QList<QRect> lrect)
 
     // 给主显示器设置文字的初始化信息并做第一次更新
     mListLock[0]->initLabel(mListRect[0],strCText,getPompt(work_time));
-    mListLock[0]->update(left_time);
+    //mListLock[0]->update(left_time);
 
     // 显示其他显示器的lock
     for(int i = mListLock.size() - 1; i > 0; --i)
@@ -55,6 +55,10 @@ LockManager::LockManager(QList<QRect> lrect)
     mTimer = new QTimer(this);
     this->connect(mTimer, &QTimer::timeout, this, &LockManager::update);
     mTimer->start(1000);
+
+    mTimerReset = new QTimer(this);
+    this->connect(mTimerReset, &QTimer::timeout, this, &LockManager::scanReset);
+    mTimerReset->start(50);
 }
 
 LockManager::~LockManager()
@@ -72,6 +76,7 @@ void LockManager::update()
     if(left_time == 0)
     {
         mTimer->stop();
+        mTimerReset->stop();
         delete this;
         Popup* popup = new Popup();
         popup->show();
@@ -80,6 +85,19 @@ void LockManager::update()
     mListLock[0]->update(left_time);
     left_time--;
     return;
+}
+
+void LockManager::scanReset()
+{
+    if(mListLock[0]->isReset())
+    {
+        mTimer->stop();
+        mTimerReset->stop();
+        delete this;
+        Popup* popup = new Popup();
+        popup->show();
+        return;
+    }
 }
 
 

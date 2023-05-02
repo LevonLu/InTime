@@ -18,7 +18,9 @@ private:
     QList<Lock*> mListLock; // 为了适应多屏幕，使用Lock的list
     QList<QRect> mListRect; // 存储多个屏幕的尺寸和位置
     void update();          // 负责更新主屏幕上的文字信息
+    void scanReset();       // 检测是否重置
     QTimer* mTimer;
+    QTimer* mTimerReset;
     int work_time;
     int relax_time;
     int left_time;

@@ -1,10 +1,12 @@
 #include "lock.h"
 #include "config.h"
+#include <QKeyEvent>
 
 Lock::Lock(QWidget *parent) :
     QWidget(parent)
 {
     bShowText = false;
+    bReset = false;
     mLbTime = nullptr;
     mLbPrompt = nullptr;
 }
@@ -48,4 +50,16 @@ void Lock::initLabel(QRect rc, QString clr, QString prompt)
     mLbTime->setAlignment(Qt::AlignCenter);
 
     mLbPrompt->setText(prompt);
+}
+
+bool Lock::isReset()
+{
+    return bReset;
+}
+
+void Lock::keyPressEvent(QKeyEvent *event)
+{
+    if(event->modifiers() == Qt::AltModifier)
+        if(event->key() == Qt::Key_R)
+            bReset = true;
 }

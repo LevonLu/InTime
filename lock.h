@@ -21,11 +21,17 @@ public:
     // 仅在需要显示文字时使用
     void update(int time);
     void initLabel(QRect rc, QString clr, QString prompt);
+    bool isReset();
 
 private:
     bool bShowText; // 是否显示文字
+    bool bReset;    // 重置
     QLabel *mLbPrompt;
     QLabel *mLbTime;
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    //void keyReleaseEvent(QKeyEvent *event);
 };
 
 
