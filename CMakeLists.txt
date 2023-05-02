@@ -19,7 +19,7 @@ set(PROJECT_SOURCES
         intime.cpp
         intime.h
         intime.ui
-        lock.h lock.cpp lock.ui
+        lock.h lock.cpp
         popup.h popup.cpp popup.ui
         config.h config.cpp
         ${TS_FILES}

@@ -18,18 +18,20 @@ public:
     explicit Lock(QWidget *parent = nullptr);
     ~Lock();
 
+    // 仅在需要显示文字时使用
+    void update(int time);
+    void initLabel(QRect rc, QString clr, QString prompt);
+    bool isReset();
+
 private:
-    Ui::lock *ui;
-    Config *config;
-    QTimer *timer;
+    bool bShowText; // 是否显示文字
+    bool bReset;    // 重置
     QLabel *mLbPrompt;
     QLabel *mLbTime;
-    QColor *mColorNormal;
-    int work_time;
-    int relax_time;
-    int left_time;
-    void update();
-    QString getPompt(int work);//应该独立出去
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    //void keyReleaseEvent(QKeyEvent *event);
 };
 
 

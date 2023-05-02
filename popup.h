@@ -44,6 +44,6 @@ private:
     QPoint      windowTopLeftPoint;
 };
 
-QString formatTime(int seconds);
+
 
 #endif // POPUP_H

@@ -55,7 +55,7 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>25:00</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
