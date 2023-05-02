@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/"/>
+    <qresource prefix="/img">
+        <file>intime.png</file>
+    </qresource>
+</RCC>

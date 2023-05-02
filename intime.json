@@ -1,0 +1,58 @@
+{
+    "Lock": {
+      "transparency":0.8,
+        "color": [
+            "#000000"
+        ],
+        "pic": {
+            "path": [
+                ""
+            ],
+            "use": [
+                0
+            ]
+        },
+        "prompt": {
+            "color": [
+                "#ffffff"
+            ],
+            "font": [
+                "楷书"
+            ],
+            "size": [
+                1
+            ],
+            "text": [
+                "注意坐姿"
+            ]
+        }
+    },
+    "Popup": {
+        "alert_color": "#ff4777",
+        "color": "#567656",
+        "height": 0,
+        "pic": {
+            "path": "",
+            "use": false
+        },
+        "prompt": {
+            "color": "#ffffff",
+            "font": "楷书",
+            "size": 1,
+            "text": "注意坐姿"
+        },
+        "weight": 0,
+        "x": 0,
+        "y": 0,
+        "transparency":0.8
+    },
+    "Setting": {
+        "Startup": true,
+        "debug": true,
+        "statistics": false,
+        "time": {
+            "relax": 1,
+            "work": 1
+        }
+    }
+}
