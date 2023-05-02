@@ -1,7 +1,7 @@
 #include "popup.h"
 #include "ui_popup.h"
 #include <QTimer>
-#include "lock.h"
+#include "lockmanager.h"
 #include <QScreen>
 #include <QMenu>
 #include <QMessageBox>
@@ -32,13 +32,13 @@ Popup::Popup(QWidget *parent) :
     int y = config->getValue({"Popup", "y"}).toInt();
     //move(x,y);
 
-    // TODO 获取多个屏幕的信息，创建lock的list 使用lockmanager来管理
+    // 获取多个屏幕的信息，创建lock的list 使用lockmanager来管理
     QList<QScreen*> screens = QGuiApplication::screens();
-    foreach (QScreen *screen, screens) {
-        qDebug() << "Screen:" << screen->name() << "geometry:" << screen->geometry();
-        qDebug() << "availableSize:" << screen->availableSize() << "availableVirtualSize:" << screen->availableVirtualSize();
-        qDebug() << "availableGeometry:" << screen->availableGeometry() << "availableVirtualGeometry:" << screen->availableVirtualGeometry();
-    }
+//    foreach (QScreen *screen, screens) {
+//        qDebug() << "Screen:" << screen->name() << "geometry:" << screen->geometry();
+//        qDebug() << "availableSize:" << screen->availableSize() << "availableVirtualSize:" << screen->availableVirtualSize();
+//        qDebug() << "availableGeometry:" << screen->availableGeometry() << "availableVirtualGeometry:" << screen->availableVirtualGeometry();
+//    }
     QRect rc = screens[0]->geometry();
     if(x == 0 && y == 0)
         move(rc.width() - width() - 50, rc.height() - height() - 50);
@@ -67,10 +67,11 @@ Popup::Popup(QWidget *parent) :
 
     // 读取配置文件 设置时间
 
-    work_time = config->getValue({"Setting", "time", "work"}).toInt() * 60;
+    work_time = config->getValue({"Setting", "time", "work"}).toInt() * 5;
     left_time = work_time;
     //QString strTime = formatTime(work_time);
     //mLbTime->setText(strTime);
+    update();
 
     // 启动timer，刷新时间
     timer = new QTimer(this);
@@ -97,8 +98,13 @@ void Popup::update()
     {
         timer->stop();
         this->destroy();
-        Lock *lock = new Lock();
-        lock->show();
+        QList<QScreen*> screens = QGuiApplication::screens();
+        QList<QRect> listRect;
+        foreach (QScreen *screen, screens) {
+            listRect.append(screen->geometry());
+        }
+        LockManager* lockmanager = new LockManager(listRect);
+        return;
     } else if (left_time == 5)
     {
         QPalette pal;

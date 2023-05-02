@@ -2,7 +2,6 @@
 #include "intime.h"
 #include "./ui_intime.h"
 #include "popup.h"
-#include "component.h"
 
 InTime::InTime(QWidget *parent)
     : QWidget(parent)

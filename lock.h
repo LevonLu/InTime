@@ -17,19 +17,14 @@ class Lock : public QWidget
 public:
     explicit Lock(QWidget *parent = nullptr);
     ~Lock();
+    void update(int time);
+    void initLabel(QRect rc, QString clr, QString prompt);
 
 private:
-    Ui::lock *ui;
-    Config *config;
-    QTimer *timer;
+    //Ui::lock *ui;
+    bool bShowText = false;
     QLabel *mLbPrompt;
     QLabel *mLbTime;
-    QColor *mColorNormal;
-    int work_time;
-    int relax_time;
-    int left_time;
-    void update();
-    QString getPompt(int work);//应该独立出去
 };
 
 

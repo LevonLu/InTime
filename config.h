@@ -35,6 +35,6 @@ public:
 };
 
 QString getCurPath();
-
+QString formatTime(int seconds);
 
 #endif // CONFIG_H
