@@ -158,7 +158,7 @@ void Popup::on_Popup_customContextMenuRequested(const QPoint &pos)
     //设置快捷键为T
     QAction *pSectionSetting = new QAction("首选项(&S)", this);
     QAction *pSectionReset = new QAction("重置计时(&R)", this);
-    QAction *pSectionQuit = new QAction("推出(&Q)", this);
+    QAction *pSectionQuit = new QAction("退出(&Q)", this);
 
     //把QAction对象添加到菜单上
     pMenu->addAction(pSectionSetting);
