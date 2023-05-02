@@ -30,15 +30,7 @@ Popup::Popup(QWidget *parent) :
     // 设置初始位置
     int x = config->getValue({"Popup", "x"}).toInt();
     int y = config->getValue({"Popup", "y"}).toInt();
-    //move(x,y);
-
-    // 获取多个屏幕的信息，创建lock的list 使用lockmanager来管理
     QList<QScreen*> screens = QGuiApplication::screens();
-//    foreach (QScreen *screen, screens) {
-//        qDebug() << "Screen:" << screen->name() << "geometry:" << screen->geometry();
-//        qDebug() << "availableSize:" << screen->availableSize() << "availableVirtualSize:" << screen->availableVirtualSize();
-//        qDebug() << "availableGeometry:" << screen->availableGeometry() << "availableVirtualGeometry:" << screen->availableVirtualGeometry();
-//    }
     QRect rc = screens[0]->geometry();
     if(x == 0 && y == 0)
         move(rc.width() - width() - 50, rc.height() - height() - 50);
@@ -51,7 +43,7 @@ Popup::Popup(QWidget *parent) :
     QString strCText = config->getValue({"Popup","prompt","color"}).toString();
     mColorNormal = new QColor(strCNormal);
     mColorAlert = new QColor(strCAlert);
-    mColorText = new QColor(strCText);
+    //mColorText = new QColor(strCText);
 
     // 更改背景颜色
     QPalette pal;
@@ -65,12 +57,9 @@ Popup::Popup(QWidget *parent) :
     mLbPrompt->setStyleSheet(strTextStyleSheetColor);
     mLbTime->setStyleSheet(strTextStyleSheetColor);
 
-    // 读取配置文件 设置时间
-
-    work_time = config->getValue({"Setting", "time", "work"}).toInt() * 5;
+    // 设置时间
+    work_time = config->getValue({"Setting", "time", "work"}).toInt() * 60;
     left_time = work_time;
-    //QString strTime = formatTime(work_time);
-    //mLbTime->setText(strTime);
     update();
 
     // 启动timer，刷新时间
@@ -98,14 +87,15 @@ void Popup::update()
     {
         timer->stop();
         this->destroy();
+
+        // 获取多个屏幕的信息，创建lock的list 使用lockmanager来管理
         QList<QScreen*> screens = QGuiApplication::screens();
         QList<QRect> listRect;
         foreach (QScreen *screen, screens) {
             listRect.append(screen->geometry());
         }
         LockManager* lockmanager = new LockManager(listRect);
-        return;
-    } else if (left_time == 5)
+    } else if (left_time == 15)
     {
         QPalette pal;
         pal.setColor(QPalette::Window, *mColorAlert);

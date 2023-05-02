@@ -17,12 +17,13 @@ class Lock : public QWidget
 public:
     explicit Lock(QWidget *parent = nullptr);
     ~Lock();
+
+    // 仅在需要显示文字时使用
     void update(int time);
     void initLabel(QRect rc, QString clr, QString prompt);
 
 private:
-    //Ui::lock *ui;
-    bool bShowText = false;
+    bool bShowText; // 是否显示文字
     QLabel *mLbPrompt;
     QLabel *mLbTime;
 };

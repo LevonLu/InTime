@@ -27,9 +27,6 @@ QString Config::get_path()
 
 void Config::load()
 {
-    // TODO 从path读取json到data
-    //QFile loadFile(this->path);
-
     QString jsonFile = this->path;
     QFile myFile( jsonFile );
     if ( !myFile.open( QFile::ReadOnly ) )
@@ -52,13 +49,11 @@ void Config::load()
 
 void Config::save()
 {
-    // TODO 保存data到path
     // 打开文件
     QFile file(this->path);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
     // 将 QJsonDocument 对象转换为 JSON 字符串
-
     QByteArray content = QJsonDocument(this->data).toJson(QJsonDocument::Indented);
 
     // 写入 JSON 字符串到文件中
@@ -68,7 +63,6 @@ void Config::save()
 
 QJsonValue Config::getValue(std::initializer_list<QString> il)
 {
-    // TODO 异常检测
     QJsonValue result;
     QJsonObject obj = this->data;
     for(auto arg:il)
@@ -122,20 +116,7 @@ bool Config::setValue_3(QString key1, QString key2, QString key3, QJsonValue val
     return true;
 }
 
-/*
-QJsonObject Config::setValue(std::initializer_list<QString> il, QJsonObject obj,QJsonValue val)
-{
-    if(il.size() == 1)
-    {
-        obj[*il.begin()] = val;
-        return obj;
-    } else {
-        QJsonObject next = obj[*il.begin()].toObject();
-        obj.remove(*il.begin());
-        obj.insert(*il.begin(), setValue())
-    }
-}
-*/
+
 
 QString formatTime(int seconds)
 {

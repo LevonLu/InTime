@@ -16,15 +16,15 @@ LockManager::LockManager(QList<QRect> lrect)
     QString strCNormal = mConfig->getValue({"Lock","color"}).toString();
     QString strCText = mConfig->getValue({"Lock","prompt","color"}).toString();
     double transparency = mConfig->getValue({"Lock","transparency"}).toDouble();
-    work_time = mConfig->getValue({"Setting", "time", "work"}).toInt() * 5;
-    relax_time = mConfig->getValue({"Setting", "time", "relax"}).toInt() * 5;
+    work_time = mConfig->getValue({"Setting", "time", "work"}).toInt() * 60;
+    relax_time = mConfig->getValue({"Setting", "time", "relax"}).toInt() * 60;
     left_time = relax_time;
 
     // 背景
     QPalette pal;
     pal.setColor(QPalette::Window, QColor(strCNormal));
 
-    // TODO 多屏幕锁屏会有延时
+    // 按照多显示器的信息来创建lock
     foreach (QRect rc, mListRect){
         Lock* lock = new Lock();
         // 大小和位置
@@ -38,16 +38,20 @@ LockManager::LockManager(QList<QRect> lrect)
         // 背景
         lock->setAutoFillBackground(true);
         lock->setPalette(pal);
+        // 此处不统一调用show，是因为会出现主显示器上文字不出现的情况，原因暂不清楚。
         //lock->show();
         mListLock.append(lock);
     }
+
+    // 给主显示器设置文字的初始化信息并做第一次更新
     mListLock[0]->initLabel(mListRect[0],strCText,getPompt(work_time));
     mListLock[0]->update(left_time);
+
+    // 显示其他显示器的lock
     for(int i = mListLock.size() - 1; i > 0; --i)
         mListLock[i]->show();
 
-
-
+    // 更新计时器 启动！
     mTimer = new QTimer(this);
     this->connect(mTimer, &QTimer::timeout, this, &LockManager::update);
     mTimer->start(1000);
@@ -59,6 +63,8 @@ LockManager::~LockManager()
         delete lock;
     }
     mListLock.clear();
+    delete mTimer;
+    delete mConfig;
 }
 
 void LockManager::update()
@@ -79,6 +85,7 @@ void LockManager::update()
 
 QString getPompt(int work)
 {
+    // TODO 读取配置文件来修改提示词
     QString strWorkTime = formatTime(work);
     QString prompt = QString("你已经工作了")+strWorkTime+QString("，请务必休息！站起来活动活动吧");
     return prompt;

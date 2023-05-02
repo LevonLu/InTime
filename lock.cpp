@@ -1,24 +1,23 @@
 #include "lock.h"
-//#include "ui_lock.h"
 #include "config.h"
 
 Lock::Lock(QWidget *parent) :
-    QWidget(parent)//,
-    //ui(new Ui::lock)
+    QWidget(parent)
 {
+    bShowText = false;
     mLbTime = nullptr;
     mLbPrompt = nullptr;
 }
 
 Lock::~Lock()
 {
-    //delete ui;
     if(mLbPrompt)
         delete mLbPrompt;
     if(mLbTime)
         delete mLbTime;
 }
 
+// 更新第二行的倒计时，仅在调用过initLabel之后生效
 void Lock::update(int time)
 {
     if(bShowText)
@@ -29,11 +28,10 @@ void Lock::update(int time)
     }
 }
 
+// 初始化两个文字label的位置、大小、颜色 与第一行文字
 void Lock::initLabel(QRect rc, QString clr, QString prompt)
 {
     bShowText = true;
-//    mLbTime = this->findChild<QLabel*>("label_time");
-//    mLbPrompt = this->findChild<QLabel*>("label_prompt");
     mLbTime = new QLabel(this);
     mLbPrompt = new QLabel(this);
 
